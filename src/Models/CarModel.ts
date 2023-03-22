@@ -3,7 +3,7 @@ import ICar from '../Interfaces/ICar';
   
 class CarModel {
   private schema: Schema;
-  protected model: Model<ICar>;
+  private model: Model<ICar>;
   
   constructor() {
     this.schema = new Schema<ICar>({
@@ -30,6 +30,11 @@ class CarModel {
   public async getOne(id: string) {
     const car = this.model.findById(id);
     return car;
+  }
+
+  public async attCar(id: string, update: ICar) {
+    const result = this.model.findByIdAndUpdate(id, update);
+    return result;
   }
 }
   

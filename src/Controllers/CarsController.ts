@@ -49,4 +49,24 @@ export default class CarsPostController {
       this.res.status(Status.unprocess).json({ message: 'Invalid mongo id' });
     }
   }
+  public async updateOneCar() {
+    const car: ICar = {
+      model: this.req.body.model,
+      year: this.req.body.year,
+      color: this.req.body.color,
+      status: this.req.body.status || false,
+      buyValue: this.req.body.buyValue,
+      doorsQty: this.req.body.doorsQty,
+      seatsQty: this.req.body.seatsQty,
+    };
+    const carId = this.req.params.id;
+
+    try {
+      const result = await this.service.attCar(carId, car);
+      if (!result) return this.res.status(Status.notFound).json({ message: 'Car not found' });
+      return this.res.status(Status.ok).json(result);
+    } catch (error) {
+      this.res.status(Status.unprocess).json({ message: 'Invalid mongo id' });
+    }
+  }
 }

@@ -28,7 +28,18 @@ export default class CarsService {
   public async getCar(carId: string) {
     const carModel = new CarModel();
     const car = await carModel.getOne(carId);
-    const carMap = this.createNewCar(car);
-    return carMap;
+    const creatCar = this.createNewCar(car);
+    return creatCar;
+  }
+
+  public async attCar(carId: string, update: ICar) {
+    const carModel = new CarModel();
+    const result = await carModel.attCar(carId, update);
+    const car = { id: carId, ...update };
+    if (result) {
+      const creatCar = this.createNewCar(car);
+      return creatCar;
+    }
+    return result;
   }
 }
