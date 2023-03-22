@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import ICar from '../Interfaces/ICar';
 import CarsService from '../Services/CarsService';
+import Status from '../Utils/status';
 
 export default class CarsPostController {
   private req: Request;
@@ -27,9 +28,25 @@ export default class CarsPostController {
     };
     try {
       const newCar = await this.service.create(car);
-      return this.res.status(201).json(newCar);
+      return this.res.status(Status.created).json(newCar);
     } catch (error) {
       this.next(error);
+    }
+  }
+
+  public async findAllCars() {
+    const cars = await this.service.getAllCars();
+    return this.res.status(Status.ok).json(cars);
+  }
+
+  public async findOneCar() {
+    const carId = this.req.params.id;
+    try {
+      const car = await this.service.getOneCar(carId);
+      if (!car) return this.res.status(Status.notFound).json({ message: 'Car not found' });
+      return this.res.status(Status.ok).json(car);
+    } catch (error) {
+      this.res.status(Status.unprocess).json({ message: 'Invalid mongo id' });
     }
   }
 }
