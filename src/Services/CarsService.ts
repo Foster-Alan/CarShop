@@ -18,14 +18,14 @@ export default class CarsService {
     return this.createNewCar(newCar);
   }
 
-  public async getAllCars() {
+  public async getCars() {
     const carModel = new CarModel();
     const cars = await carModel.findAll();
     const carMap = cars.map((car) => this.createNewCar(car));
     return carMap;
   }
 
-  public async getOneCar(carId: string) {
+  public async getCar(carId: string) {
     const carModel = new CarModel();
     const car = await carModel.getOne(carId);
     const carMap = this.createNewCar(car);

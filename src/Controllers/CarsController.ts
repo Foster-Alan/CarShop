@@ -35,14 +35,14 @@ export default class CarsPostController {
   }
 
   public async findAllCars() {
-    const cars = await this.service.getAllCars();
+    const cars = await this.service.getCars();
     return this.res.status(Status.ok).json(cars);
   }
 
   public async findOneCar() {
     const carId = this.req.params.id;
     try {
-      const car = await this.service.getOneCar(carId);
+      const car = await this.service.getCar(carId);
       if (!car) return this.res.status(Status.notFound).json({ message: 'Car not found' });
       return this.res.status(Status.ok).json(car);
     } catch (error) {
