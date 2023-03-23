@@ -1,8 +1,9 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
+
+import { expect } from 'chai';
 import { Model } from 'mongoose';
-import Car from '../../../src/Domains/Car';
-import ICar from '../../../src/Interfaces/ICar';
+import { carInput, carOutput } from '../../../src/mock/carMock';
+
 import CarService from '../../../src/Services/CarsService';
 
 const MAREA_ID = '6348513f34c397abcad040b2';
@@ -13,27 +14,6 @@ describe('', function () {
   });
 
   it('Add Car', async function () {
-    const carInput: ICar = {
-      model: 'Marea',
-      year: 2002,
-      color: 'Black',
-      status: true,
-      buyValue: 15.990,
-      doorsQty: 4,
-      seatsQty: 5,
-    };
-    const carOutput: Car = new Car(
-      {
-        id: MAREA_ID,
-        model: 'Marea',
-        year: 2002,
-        color: 'Black',
-        status: true,
-        buyValue: 15.990,
-        doorsQty: 4,
-        seatsQty: 5,
-      },
-    );
     sinon.stub(Model, 'create').resolves(carOutput);
 
     const service = new CarService();
@@ -42,18 +22,6 @@ describe('', function () {
     expect(result).to.be.deep.equal(carOutput);
   });
   it('Get by id', async function () {
-    const carOutput: Car = new Car(
-      {
-        id: MAREA_ID,
-        model: 'Marea',
-        year: 2002,
-        color: 'Black',
-        status: true,
-        buyValue: 15.990,
-        doorsQty: 4,
-        seatsQty: 5,
-      },
-    );
     sinon.stub(Model, 'findOne').resolves(carOutput);
 
     const service = new CarService();
